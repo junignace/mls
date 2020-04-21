@@ -1,0 +1,72 @@
+%MLS & QLS & CLS
+
+l = input('Input the number of data points: ');
+
+for n = 1:l
+     x(n) = input('Input the values for x: ');
+    
+    y(n) = input('Input the values for y: ');
+    
+end
+
+sumx = sum(x);
+sumy = sum(y);
+sumx2 = sum(x.^2);
+sumx3 = sum(x.^3);
+sumx4 = sum(x.^4);
+sumxy = sum(x.*y);
+sumx2y= sum((x.^2).*y);
+
+func = input('X value to be estimated: ');
+
+disp('Type 1 if it is linear, 2 if quadratic')
+
+meth = input('What method to use?: ');
+
+if meth == 1
+    A = [ sumx,l; sumx2, sumx ];
+    c = [ sumy; sumxy ];
+    tempA = A;
+    deter = det(A);
+    A(:,1) = c;
+    
+    deter1 = det(A);
+    tempA(:,2) = c;
+    deter2 = det(tempA);
+    
+    a = deter1/deter;
+    b = deter2/deter;
+    
+    %SOlve for the estimate
+    
+    esti = (a*func) + b 
+    
+end
+    
+if meth == 2
+    A = [ sumx2, sumx, l; sumx3, sumx2, sumx; sumx4, sumx3, sumx2 ];
+    d = [ sumy; sumxy; sumx2y ];
+    tempA1 = A;
+    tempA2 = A;
+    deter = det(A);
+    A(:,1) = d;
+    deter1 = det(A);
+    tempA1(:,2) = d;
+    deter2 = det(tempA1);
+    tempA2(:,3) = d;
+    deter3 = det(tempA2);
+    
+    a = deter1/deter;
+    b = deter2/deter;
+    c = deter3/deter;
+    
+    %solve for the estimate
+    
+    esti = (a*(func^2)) + (b*func) + c
+    
+end
+
+
+    
+    
+    
